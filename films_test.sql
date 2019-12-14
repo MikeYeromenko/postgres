@@ -96,10 +96,8 @@ COPY public.films (id, title, box_office, year_out) FROM stdin;
 12	Гарри Поттер и Дары Смерти. Часть 2	1341932398	2011
 13	Звёздные войны: Последние джедаи	1332539889	2017
 14	Мир юрского периода 2	1308467944	2018
-15	Холодное сердце	290000000	2013
 16	Красавица и чудовище	1263521126	2017
 17	Суперсемейка 2	1242805359	2018
-18	Форсаж 8	81238764765	2017
 19	Железный человек 3	1214811252	2013
 20	Миньоны	1159398397	2015
 21	Первый мститель: Противостояние	1153296293	2016
@@ -165,6 +163,7 @@ COPY public.films (id, title, box_office, year_out) FROM stdin;
 81	Человек-паук	825025036	2002
 82	Чудо-женщина	821847012	2017
 83	День независимости	817400891	1996
+18	Форсаж 8	1238764765	2017
 84	Фантастические твари и где они обитают	814037575	2016
 85	Тайна Коко	807082196	2017
 86	Шрек Третий	804438141	2007
@@ -182,6 +181,8 @@ COPY public.films (id, title, box_office, year_out) FROM stdin;
 98	Стражи Галактики	772776600	2014
 99	Форсаж: Хоббс и Шоу	758910100	2019
 100	Малефисента	758410378	2014
+15	Холодное сердце	1290000000	2013
+101	Тайное влечение	1000000	2013
 \.
 
 
@@ -189,7 +190,15 @@ COPY public.films (id, title, box_office, year_out) FROM stdin;
 -- Name: films_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.films_id_seq', 1, false);
+SELECT pg_catalog.setval('public.films_id_seq', 1, true);
+
+
+--
+-- Name: films films_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.films
+    ADD CONSTRAINT films_id_key UNIQUE (id);
 
 
 --
