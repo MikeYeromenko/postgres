@@ -35,6 +35,128 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: actors; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.actors (
+    id integer NOT NULL,
+    first_name character varying(20) NOT NULL,
+    second_name character varying(20) NOT NULL,
+    date_of_birth date,
+    id_country integer,
+    notes text
+);
+
+
+ALTER TABLE public.actors OWNER TO postgres;
+
+--
+-- Name: actors_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.actors_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.actors_id_seq OWNER TO postgres;
+
+--
+-- Name: actors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.actors_id_seq OWNED BY public.actors.id;
+
+
+--
+-- Name: countries; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.countries (
+    id integer NOT NULL,
+    title character varying(30)
+);
+
+
+ALTER TABLE public.countries OWNER TO postgres;
+
+--
+-- Name: countries_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.countries_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.countries_id_seq OWNER TO postgres;
+
+--
+-- Name: countries_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.countries_id_seq OWNED BY public.countries.id;
+
+
+--
+-- Name: directors; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.directors (
+    id integer NOT NULL,
+    first_name character varying(20),
+    second_name character varying(20),
+    date_of_birth date,
+    id_country integer,
+    notes text
+);
+
+
+ALTER TABLE public.directors OWNER TO postgres;
+
+--
+-- Name: directors_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.directors_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.directors_id_seq OWNER TO postgres;
+
+--
+-- Name: directors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.directors_id_seq OWNED BY public.directors.id;
+
+
+--
+-- Name: directors_usa; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.directors_usa (
+    first_name character varying(20),
+    second_name character varying(20)
+);
+
+
+ALTER TABLE public.directors_usa OWNER TO postgres;
+
+--
 -- Name: films; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -47,6 +169,30 @@ CREATE TABLE public.films (
 
 
 ALTER TABLE public.films OWNER TO postgres;
+
+--
+-- Name: films_actors; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.films_actors (
+    id_film integer NOT NULL,
+    id_actor integer NOT NULL
+);
+
+
+ALTER TABLE public.films_actors OWNER TO postgres;
+
+--
+-- Name: films_directors; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.films_directors (
+    id_film integer NOT NULL,
+    id_director integer NOT NULL
+);
+
+
+ALTER TABLE public.films_directors OWNER TO postgres;
 
 --
 -- Name: films_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -71,10 +217,138 @@ ALTER SEQUENCE public.films_id_seq OWNED BY public.films.id;
 
 
 --
+-- Name: full_join; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.full_join (
+    title character varying(70),
+    actor text,
+    director text
+);
+
+
+ALTER TABLE public.full_join OWNER TO postgres;
+
+--
+-- Name: inner_join; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.inner_join (
+    title character varying(70),
+    actor text,
+    director text
+);
+
+
+ALTER TABLE public.inner_join OWNER TO postgres;
+
+--
+-- Name: left_join; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.left_join (
+    title character varying(70),
+    actor text,
+    dir_name text
+);
+
+
+ALTER TABLE public.left_join OWNER TO postgres;
+
+--
+-- Name: right_join; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.right_join (
+    title character varying(70),
+    actor text,
+    director text
+);
+
+
+ALTER TABLE public.right_join OWNER TO postgres;
+
+--
+-- Name: actors id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.actors ALTER COLUMN id SET DEFAULT nextval('public.actors_id_seq'::regclass);
+
+
+--
+-- Name: countries id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.countries ALTER COLUMN id SET DEFAULT nextval('public.countries_id_seq'::regclass);
+
+
+--
+-- Name: directors id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.directors ALTER COLUMN id SET DEFAULT nextval('public.directors_id_seq'::regclass);
+
+
+--
 -- Name: films id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.films ALTER COLUMN id SET DEFAULT nextval('public.films_id_seq'::regclass);
+
+
+--
+-- Data for Name: actors; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.actors (id, first_name, second_name, date_of_birth, id_country, notes) FROM stdin;
+1	Robert John	Downey Jr.	1965-04-04	1	американский актёр, продюсер и музыкант. Лауреат премий «Золотой глобус» (2001, 2010), BAFTA (1993), «Премии Гильдии киноактёров США» (2001) и «Сатурн» (1994, 2009, 2014, 2019), номинант на премии «Оскар» (1993, 2009) и «Эмми» (2001).
+2	Christofer Robert	Evans	1981-06-13	1	американский актёр. Мировую известность ему принесла роль Капитана Америки в кинематографической вселенной Marvel. Эванс также исполнил роль Человека-факела в фильме «Фантастическая четвёрка» (2005) и его сиквеле 2007 года.
+3	Сэмюэл Генри Джей	Уортингтон	1976-08-02	2	австралийский актёр. Всемирную известность приобрёл благодаря главным ролям в фильмах «Аватар», «Битва Титанов» и его продолжения «Гнев титанов», «Терминатор: Да придёт спаситель», «Прошлой ночью в Нью-Йорке», «На грани» и «По соображениям совести».
+4	Зои Ядира	Салдана-Перего	1978-06-19	1	американская актриса и танцовщица.
+5	Леонардо Вильгельм	Ди Каприо	1974-11-11	1	америамериканский актёр и продюсер.Четыре раза был номинирован на премию «Оскар» за лучшую мужскую роль в фильмах «Авиатор» (2004), «Кровавый алмаз» (2006), «Волк с Уолл-стрит» (2013) и «Выживший» (2016), а также за лучшую мужскую роль второго плана в фильме «Что гложет Гилберта Грэйпа» (1994). Четыре раза был номинирован на премию BAFTA и одиннадцать раз на премию «Золотой глобус». В 2016 году стал обладателем премии «Оскар» в номинации «Лучшая мужская роль», а также награды за лучшую мужскую роль британской премии BAFTA за исполнение роли Хью Гласса в фильме «Выживший». Лауреат трёх премий «Золотой глобус» за лучшую мужскую роль в драме за роль Говарда Хьюза в фильме «Авиатор» (2004), обладатель премии в номинации «Лучшая мужская роль в комедии или мюзикле» за роль Джордана Белфорта в фильме «Волк с Уолл-стрит» (2013) и в номинации «Лучшая мужская роль в драме» за роль в фильме «Выживший» (2016). Номинант премий «Сатурн», Гильдии киноактёров США и «Спутник». Актёрскую карьеру начал в конце 1980-х годов. В 2000-х годах получил признание публики и критиков за работу в широком диапазоне киножанров.канский актёр и продюсер. Четыре раза был номинирован на премию «Оскар» за лучшую мужскую роль в фильмах «Авиатор» (2004), «Кровавый алмаз» (2006), «Волк с Уолл-стрит» (2013) и «Выживший» (2016), а также за лучшую мужскую роль второго плана в фильме «Что гложет Гилберта Грэйпа» (1994). Четыре раза был номинирован на премию BAFTA и одиннадцать раз на премию «Золотой глобус». В 2016 году стал обладателем премии «Оскар» в номинации «Лучшая мужская роль», а также награды за лучшую мужскую роль британской премии BAFTA за исполнение роли Хью Гласса в фильме «Выживший». Лауреат трёх премий «Золотой глобус» за лучшую мужскую роль в драме за роль Говарда Хьюза в фильме «Авиатор» (2004), обладатель премии в номинации «Лучшая мужская роль в комедии или мюзикле» за роль Джордана Белфорта в фильме «Волк с Уолл-стрит» (2013) и в номинации «Лучшая мужская роль в драме» за роль в фильме «Выживший» (2016). Номинант премий «Сатурн», Гильдии киноактёров США и «Спутник».Актёрскую карьеру начал в конце 1980-х годов. В 2000-х годах получил признание публики и критиков за работу в широком диапазоне киножанров. 
+6	Кейт Элизабет	Уинслет	1975-10-05	3	Актёрскую карьеру Кейт Уинслет начала в 1991 году, дебютировав на британском телевидении. Дебютом в кино для Уинслет стала картина «Небесные создания» (1994), получившая признание кинокритиков[1]. Всемирная слава к ней пришла спустя всего несколько лет, после исполнения роли Розы Дьюитт Бьюкейтер в фильме-катастрофе «Титаник» (1997), за которую она получила свою вторую номинацию на премию «Оскар». В дальнейшем она была отмечена в таких фильмах, как «Перо маркиза де Сада» (2000), «Айрис» (2001), «Вечное сияние чистого разума» (2004), «Волшебная страна» (2004), «Как малые дети» (2006), «Чтец» (2008), «Дорога перемен» (2008) и «Стив Джобс» (2015), за которые была номинирована на различные кинонаграды. Лауреат премии «Грэмми» (2000) за «Лучший речевой альбом для детей». Также принимала участие в качестве вокалистки некоторых саундтреков для фильмов, а её сингл «What If» был хитом в ряде европейских стран. Обладательница многочисленных наград, в том числе премии «Оскар» (2009), лауреат трёх премий BAFTA (1996, 2009, 2016), четырёх премий «Золотой глобус» (2009 — дважды, 2012, 2016), премии «Эмми» (2011) и Почётной премии «Сезар» (2012). 17 марта 2014 года Кейт Уинслет была удостоена именной звезды на Голливудской «Аллее славы».
+7	Джон	Бойега	1992-03-17	3	Наиболее известен по роли Финна в фильмах «Звёздные войны: Пробуждение силы» (2015) и «Звёздные войны: Последние джедаи» (2017), являющихся частью трилогии-сиквела саги «Звёздные войны». Также исполнял роль Джейка Пентекоста, главного героя фантастического фильма «Тихоокеанский рубеж 2» (2018).
+8	Кристофер	Хемсворт	1983-08-11	2	австралийский актёр, номинант на премию BAFTA. Наиболее известен по роли Тора в кинематографической вселенной Marvel: «Тор», «Мстители», «Тор 2: Царство тьмы», «Мстители: Эра Альтрона», «Тор: Рагнарёк», «Мстители: Война бесконечности» и «Мстители: Финал», а также в фильмах «Гонка», «Хижина в лесу», «Ничего хорошего в отеле «Эль Рояль»», «В сердце моря» и «Люди в чёрном: Интернэшнл».
+9	Кристофер Майкл	Прэтт	1979-06-21	1	американский актёр кино и телевидения. Известен главными ролями в фильмах «Стражи Галактики», «Мир юрского периода» и «Пассажиры». В 2014 году озвучил главную роль в анимационном фильме «Лего Фильм», за который был номинирован на премию Teen Choice Awards в категории «лучшее озвучивание персонажа»
+\.
+
+
+--
+-- Data for Name: countries; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.countries (id, title) FROM stdin;
+2	Австралия
+3	Великобритания
+4	Канада
+1	Соединенные штаты Америки
+\.
+
+
+--
+-- Data for Name: directors; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.directors (id, first_name, second_name, date_of_birth, id_country, notes) FROM stdin;
+1	Энтони	Руссо	1970-02-03	1	американские режиссёры кино и телевидения. Братья снимают большинство своих работ в основном вместе, также иногда в качестве продюсеров, сценаристов, актёров и монтажёров. Они выиграли «Эмми» за свою работу над комедийным сериалом «Замедленное развитие»
+2	Джозеф	Руссо	1971-07-08	1	американские режиссёры кино и телевидения. Братья снимают большинство своих работ в основном вместе, также иногда в качестве продюсеров, сценаристов, актёров и монтажёров. Они выиграли «Эмми» за свою работу над комедийным сериалом «Замедленное развитие».
+3	Джеймс Френсис	Кэмерон	1954-08-16	4	канадский кинорежиссёр, сценарист, продюсер, монтажёр, океанограф. Один из самых успешных режиссёров в истории кино: восемь его самых популярных картин собрали в прокате более 5,5 млрд долларов. Снял два из самых кассовых художественных фильма в истории кинематографа: «Титаник» (1997), который получил 11 премий «Оскар» (в том числе лично Кэмерону — за лучший фильм, лучшие режиссуру и монтаж) и «Аватар», успех которого привёл к буму 3D-фильмов в начале 2010-х годов. Вместе с Гейл Энн Хёрд Кэмерон создал вселенную Терминатора и был режиссёром двух первых фильмов этой серии: «Терминатор» и «Терминатор 2: Судный день».
+4	Джеффри Джейкоб	Абрамс	1966-06-27	1	американский кинорежиссёр, продюсер, сценарист, актёр и композитор. Наиболее известен по работе в жанрах экшена, драмы и научной фантастики. Абрамс выступал в качестве сценариста или продюсера таких фильмов, как «Что касается Генри» (1991), «Вечно молодой» (1992), «Армагеддон» (1998), «Монстро» (2008), «Звёздный путь» (2009), «Звёздные войны: Пробуждение силы» (2015) и предстоящего «Звёздные войны: Скайуокер. Восход» (2019).
+5	Колин	Треворроу	1976-09-13	1	американский режиссёр, сценарист, продюсер и актёр. Наиболее известен как режиссёр, сценарист и продюсер таких фильмов как: «Мир юрского периода» и «Безопасность не гарантируется». В 2013 году номинировался на премию «Независимый дух» за лучший дебютный фильм.
+\.
+
+
+--
+-- Data for Name: directors_usa; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.directors_usa (first_name, second_name) FROM stdin;
+ЭН	РУССО
+ДЖ	РУССО
+ДЖ	КЭМЕРОН
+ДЖ	АБРАМС
+КО	ТРЕВОРРОУ
+\.
 
 
 --
@@ -187,10 +461,392 @@ COPY public.films (id, title, box_office, year_out) FROM stdin;
 
 
 --
+-- Data for Name: films_actors; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.films_actors (id_film, id_actor) FROM stdin;
+1	1
+1	2
+2	3
+2	4
+3	5
+3	6
+4	7
+5	1
+5	8
+5	2
+6	9
+\.
+
+
+--
+-- Data for Name: films_directors; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.films_directors (id_film, id_director) FROM stdin;
+1	1
+1	2
+2	3
+3	3
+4	4
+5	1
+5	2
+6	5
+\.
+
+
+--
+-- Data for Name: full_join; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.full_join (title, actor, director) FROM stdin;
+Мстители: Финал	Christofer Robert Evans	Энтони Руссо
+Мстители: Финал	Robert John Downey Jr.	Энтони Руссо
+Мстители: Финал	Christofer Robert Evans	Джозеф Руссо
+Мстители: Финал	Robert John Downey Jr.	Джозеф Руссо
+Аватар	Зои Ядира Салдана-Перего	Джеймс Френсис Кэмерон
+Аватар	Сэмюэл Генри Джей Уортингтон	Джеймс Френсис Кэмерон
+Титаник	Кейт Элизабет Уинслет	Джеймс Френсис Кэмерон
+Титаник	Леонардо Вильгельм Ди Каприо	Джеймс Френсис Кэмерон
+Звёздные войны: Пробуждение силы	Джон Бойега	Джеффри Джейкоб Абрамс
+Мстители: Война бесконечности	Christofer Robert Evans	Энтони Руссо
+Мстители: Война бесконечности	Кристофер Хемсворт	Энтони Руссо
+Мстители: Война бесконечности	Robert John Downey Jr.	Энтони Руссо
+Мстители: Война бесконечности	Christofer Robert Evans	Джозеф Руссо
+Мстители: Война бесконечности	Кристофер Хемсворт	Джозеф Руссо
+Мстители: Война бесконечности	Robert John Downey Jr.	Джозеф Руссо
+Мир юрского периода	Кристофер Майкл Прэтт	Колин Треворроу
+Трансформеры 3: Тёмная сторона Луны	\N	\N
+Властелин колец: Возвращение короля	\N	\N
+Суперсемейка 2	\N	\N
+Война волков 2	\N	\N
+Король Лев	\N	\N
+Холодное сердце	\N	\N
+Звёздные войны. Эпизод III: Месть ситхов	\N	\N
+Гарри Поттер и Принц-полукровка	\N	\N
+Первый мститель: Противостояние	\N	\N
+Человек-паук: Возвращение домой	\N	\N
+Тайная жизнь домашних животных	\N	\N
+Сумерки. Сага: Рассвет — Часть 2	\N	\N
+Форсаж: Хоббс и Шоу	\N	\N
+Дэдпул 2	\N	\N
+Человек-паук 3: Враг в отражении	\N	\N
+Фантастические твари и где они обитают	\N	\N
+Головоломка	\N	\N
+Алиса в Стране чудес	\N	\N
+2012	\N	\N
+Тёмный рыцарь	\N	\N
+Веном	\N	\N
+Миньоны	\N	\N
+007: Координаты «Скайфолл»	\N	\N
+Чёрная Пантера	\N	\N
+Холодное сердце 2	\N	\N
+История игрушек: Большой побег	\N	\N
+Гарри Поттер и Дары Смерти. Часть 2	\N	\N
+007: Спектр	\N	\N
+День независимости	\N	\N
+Гадкий я 3	\N	\N
+Гарри Поттер и Орден Феникса	\N	\N
+Парк юрского периода	\N	\N
+Книга джунглей	\N	\N
+Человек-паук 2	\N	\N
+Ледниковый период 4: Континентальный дрейф	\N	\N
+Человек-паук	\N	\N
+Властелин колец: Две крепости	\N	\N
+Джуманджи: Зов джунглей	\N	\N
+Аквамен	\N	\N
+Гарри Поттер и философский камень	\N	\N
+Богемская рапсодия	\N	\N
+Гарри Поттер и Кубок огня	\N	\N
+Форсаж 7	\N	\N
+Пираты Карибского моря: Мертвецы не рассказывают сказки	\N	\N
+Тайное влечение	\N	\N
+Чудо-женщина	\N	\N
+Индиана Джонс и Королевство хрустального черепа	\N	\N
+Изгой-один. Звёздные войны: Истории	\N	\N
+Мстители: Эра Альтрона	\N	\N
+Стражи Галактики	\N	\N
+Хоббит: Пустошь Смауга	\N	\N
+Тайна Коко	\N	\N
+Пираты Карибского моря: Сундук мертвеца	\N	\N
+Капитан Марвел	\N	\N
+Мстители	\N	\N
+Трансформеры: Эпоха истребления	\N	\N
+История игрушек 4	\N	\N
+Звёздные войны. Эпизод IV: Новая надежда	\N	\N
+Тор: Рагнарёк	\N	\N
+Начало	\N	\N
+Тёмный рыцарь: Возрождение легенды	\N	\N
+В поисках Немо	\N	\N
+Пираты Карибского моря: На странных берегах	\N	\N
+Хоббит: Битва пяти воинств	\N	\N
+Человек-паук: Вдали от дома	\N	\N
+Шрек Третий	\N	\N
+Хоббит: Нежданное путешествие	\N	\N
+Гарри Поттер и узник Азкабана	\N	\N
+Аладдин	\N	\N
+Ледниковый период 3: Эра динозавров	\N	\N
+Король Лев	\N	\N
+В поисках Дори	\N	\N
+Гарри Поттер и Тайная комната	\N	\N
+Инопланетянин	\N	\N
+Джокер	\N	\N
+Форсаж 8	\N	\N
+Голодные игры: И вспыхнет пламя	\N	\N
+Гадкий я 2	\N	\N
+Стражи Галактики. Часть 2	\N	\N
+Звёздные войны. Эпизод I: Скрытая угроза	\N	\N
+Звёздные войны: Последние джедаи	\N	\N
+Форсаж 6	\N	\N
+Дэдпул	\N	\N
+Железный человек 3	\N	\N
+Трансформеры: Месть падших	\N	\N
+Малефисента	\N	\N
+Пираты Карибского моря: На краю света	\N	\N
+Гарри Поттер и Дары Смерти. Часть 1	\N	\N
+Бэтмен против Супермена: На заре справедливости	\N	\N
+Зверополис	\N	\N
+Миссия невыполнима: Последствия	\N	\N
+Шрек 2	\N	\N
+Красавица и чудовище	\N	\N
+Властелин колец: Братство Кольца	\N	\N
+Мир юрского периода 2	\N	\N
+\.
+
+
+--
+-- Data for Name: inner_join; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.inner_join (title, actor, director) FROM stdin;
+Мстители: Финал	Robert John Downey Jr.	Джозеф Руссо
+Мстители: Финал	Robert John Downey Jr.	Энтони Руссо
+Мстители: Финал	Christofer Robert Evans	Джозеф Руссо
+Мстители: Финал	Christofer Robert Evans	Энтони Руссо
+Аватар	Сэмюэл Генри Джей Уортингтон	Джеймс Френсис Кэмерон
+Аватар	Зои Ядира Салдана-Перего	Джеймс Френсис Кэмерон
+Титаник	Леонардо Вильгельм Ди Каприо	Джеймс Френсис Кэмерон
+Титаник	Кейт Элизабет Уинслет	Джеймс Френсис Кэмерон
+Звёздные войны: Пробуждение силы	Джон Бойега	Джеффри Джейкоб Абрамс
+Мстители: Война бесконечности	Robert John Downey Jr.	Джозеф Руссо
+Мстители: Война бесконечности	Robert John Downey Jr.	Энтони Руссо
+Мстители: Война бесконечности	Кристофер Хемсворт	Джозеф Руссо
+Мстители: Война бесконечности	Кристофер Хемсворт	Энтони Руссо
+Мстители: Война бесконечности	Christofer Robert Evans	Джозеф Руссо
+Мстители: Война бесконечности	Christofer Robert Evans	Энтони Руссо
+Мир юрского периода	Кристофер Майкл Прэтт	Колин Треворроу
+\.
+
+
+--
+-- Data for Name: left_join; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.left_join (title, actor, dir_name) FROM stdin;
+Мстители: Финал	Christofer Robert Evans - Соединенные штаты Америки	Энтони Руссо -  Соединенные штаты Америки
+Мстители: Финал	Robert John Downey Jr. - Соединенные штаты Америки	Энтони Руссо -  Соединенные штаты Америки
+Мстители: Финал	Christofer Robert Evans - Соединенные штаты Америки	Джозеф Руссо -  Соединенные штаты Америки
+Мстители: Финал	Robert John Downey Jr. - Соединенные штаты Америки	Джозеф Руссо -  Соединенные штаты Америки
+Аватар	Зои Ядира Салдана-Перего - Соединенные штаты Америки	Джеймс Френсис Кэмерон -  Канада
+Аватар	Сэмюэл Генри Джей Уортингтон - Австралия	Джеймс Френсис Кэмерон -  Канада
+Титаник	Кейт Элизабет Уинслет - Великобритания	Джеймс Френсис Кэмерон -  Канада
+Титаник	Леонардо Вильгельм Ди Каприо - Соединенные штаты Америки	Джеймс Френсис Кэмерон -  Канада
+Звёздные войны: Пробуждение силы	Джон Бойега - Великобритания	Джеффри Джейкоб Абрамс -  Соединенные штаты Америки
+Мстители: Война бесконечности	Christofer Robert Evans - Соединенные штаты Америки	Энтони Руссо -  Соединенные штаты Америки
+Мстители: Война бесконечности	Кристофер Хемсворт - Австралия	Энтони Руссо -  Соединенные штаты Америки
+Мстители: Война бесконечности	Robert John Downey Jr. - Соединенные штаты Америки	Энтони Руссо -  Соединенные штаты Америки
+Мстители: Война бесконечности	Christofer Robert Evans - Соединенные штаты Америки	Джозеф Руссо -  Соединенные штаты Америки
+Мстители: Война бесконечности	Кристофер Хемсворт - Австралия	Джозеф Руссо -  Соединенные штаты Америки
+Мстители: Война бесконечности	Robert John Downey Jr. - Соединенные штаты Америки	Джозеф Руссо -  Соединенные штаты Америки
+Мир юрского периода	Кристофер Майкл Прэтт - Соединенные штаты Америки	Колин Треворроу -  Соединенные штаты Америки
+Трансформеры 3: Тёмная сторона Луны	\N	\N
+Властелин колец: Возвращение короля	\N	\N
+Суперсемейка 2	\N	\N
+Война волков 2	\N	\N
+Король Лев	\N	\N
+Холодное сердце	\N	\N
+Звёздные войны. Эпизод III: Месть ситхов	\N	\N
+Гарри Поттер и Принц-полукровка	\N	\N
+Первый мститель: Противостояние	\N	\N
+Человек-паук: Возвращение домой	\N	\N
+Тайная жизнь домашних животных	\N	\N
+Сумерки. Сага: Рассвет — Часть 2	\N	\N
+Форсаж: Хоббс и Шоу	\N	\N
+Дэдпул 2	\N	\N
+Человек-паук 3: Враг в отражении	\N	\N
+Фантастические твари и где они обитают	\N	\N
+Головоломка	\N	\N
+Алиса в Стране чудес	\N	\N
+2012	\N	\N
+Тёмный рыцарь	\N	\N
+Веном	\N	\N
+Миньоны	\N	\N
+007: Координаты «Скайфолл»	\N	\N
+Чёрная Пантера	\N	\N
+Холодное сердце 2	\N	\N
+История игрушек: Большой побег	\N	\N
+Гарри Поттер и Дары Смерти. Часть 2	\N	\N
+007: Спектр	\N	\N
+День независимости	\N	\N
+Гадкий я 3	\N	\N
+Гарри Поттер и Орден Феникса	\N	\N
+Парк юрского периода	\N	\N
+Книга джунглей	\N	\N
+Человек-паук 2	\N	\N
+Ледниковый период 4: Континентальный дрейф	\N	\N
+Человек-паук	\N	\N
+Властелин колец: Две крепости	\N	\N
+Джуманджи: Зов джунглей	\N	\N
+Аквамен	\N	\N
+Гарри Поттер и философский камень	\N	\N
+Богемская рапсодия	\N	\N
+Гарри Поттер и Кубок огня	\N	\N
+Форсаж 7	\N	\N
+Пираты Карибского моря: Мертвецы не рассказывают сказки	\N	\N
+Тайное влечение	\N	\N
+Чудо-женщина	\N	\N
+Индиана Джонс и Королевство хрустального черепа	\N	\N
+Изгой-один. Звёздные войны: Истории	\N	\N
+Мстители: Эра Альтрона	\N	\N
+Стражи Галактики	\N	\N
+Хоббит: Пустошь Смауга	\N	\N
+Тайна Коко	\N	\N
+Пираты Карибского моря: Сундук мертвеца	\N	\N
+Капитан Марвел	\N	\N
+Мстители	\N	\N
+Трансформеры: Эпоха истребления	\N	\N
+История игрушек 4	\N	\N
+Звёздные войны. Эпизод IV: Новая надежда	\N	\N
+Тор: Рагнарёк	\N	\N
+Начало	\N	\N
+Тёмный рыцарь: Возрождение легенды	\N	\N
+В поисках Немо	\N	\N
+Пираты Карибского моря: На странных берегах	\N	\N
+Хоббит: Битва пяти воинств	\N	\N
+Человек-паук: Вдали от дома	\N	\N
+Шрек Третий	\N	\N
+Хоббит: Нежданное путешествие	\N	\N
+Гарри Поттер и узник Азкабана	\N	\N
+Аладдин	\N	\N
+Ледниковый период 3: Эра динозавров	\N	\N
+Король Лев	\N	\N
+В поисках Дори	\N	\N
+Гарри Поттер и Тайная комната	\N	\N
+Инопланетянин	\N	\N
+Джокер	\N	\N
+Форсаж 8	\N	\N
+Голодные игры: И вспыхнет пламя	\N	\N
+Гадкий я 2	\N	\N
+Стражи Галактики. Часть 2	\N	\N
+Звёздные войны. Эпизод I: Скрытая угроза	\N	\N
+Звёздные войны: Последние джедаи	\N	\N
+Форсаж 6	\N	\N
+Дэдпул	\N	\N
+Железный человек 3	\N	\N
+Трансформеры: Месть падших	\N	\N
+Малефисента	\N	\N
+Пираты Карибского моря: На краю света	\N	\N
+Гарри Поттер и Дары Смерти. Часть 1	\N	\N
+Бэтмен против Супермена: На заре справедливости	\N	\N
+Зверополис	\N	\N
+Миссия невыполнима: Последствия	\N	\N
+Шрек 2	\N	\N
+Красавица и чудовище	\N	\N
+Властелин колец: Братство Кольца	\N	\N
+Мир юрского периода 2	\N	\N
+\.
+
+
+--
+-- Data for Name: right_join; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.right_join (title, actor, director) FROM stdin;
+Мстители: Финал	Christofer Robert Evans	Энтони Руссо
+Мстители: Финал	Robert John Downey Jr.	Энтони Руссо
+Мстители: Финал	Christofer Robert Evans	Джозеф Руссо
+Мстители: Финал	Robert John Downey Jr.	Джозеф Руссо
+Аватар	Зои Ядира Салдана-Перего	Джеймс Френсис Кэмерон
+Аватар	Сэмюэл Генри Джей Уортингтон	Джеймс Френсис Кэмерон
+Титаник	Кейт Элизабет Уинслет	Джеймс Френсис Кэмерон
+Титаник	Леонардо Вильгельм Ди Каприо	Джеймс Френсис Кэмерон
+Звёздные войны: Пробуждение силы	Джон Бойега	Джеффри Джейкоб Абрамс
+Мстители: Война бесконечности	Christofer Robert Evans	Энтони Руссо
+Мстители: Война бесконечности	Кристофер Хемсворт	Энтони Руссо
+Мстители: Война бесконечности	Robert John Downey Jr.	Энтони Руссо
+Мстители: Война бесконечности	Christofer Robert Evans	Джозеф Руссо
+Мстители: Война бесконечности	Кристофер Хемсворт	Джозеф Руссо
+Мстители: Война бесконечности	Robert John Downey Jr.	Джозеф Руссо
+Мир юрского периода	Кристофер Майкл Прэтт	Колин Треворроу
+\.
+
+
+--
+-- Name: actors_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.actors_id_seq', 9, true);
+
+
+--
+-- Name: countries_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.countries_id_seq', 3, true);
+
+
+--
+-- Name: directors_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.directors_id_seq', 5, true);
+
+
+--
 -- Name: films_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.films_id_seq', 1, true);
+
+
+--
+-- Name: actors actors_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.actors
+    ADD CONSTRAINT actors_id_key UNIQUE (id);
+
+
+--
+-- Name: countries countries_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.countries
+    ADD CONSTRAINT countries_id_key UNIQUE (id);
+
+
+--
+-- Name: directors directors_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.directors
+    ADD CONSTRAINT directors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: films_actors films_actors_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.films_actors
+    ADD CONSTRAINT films_actors_pkey PRIMARY KEY (id_film, id_actor);
+
+
+--
+-- Name: films_directors films_directors_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.films_directors
+    ADD CONSTRAINT films_directors_pkey PRIMARY KEY (id_film, id_director);
 
 
 --
@@ -199,6 +855,46 @@ SELECT pg_catalog.setval('public.films_id_seq', 1, true);
 
 ALTER TABLE ONLY public.films
     ADD CONSTRAINT films_id_key UNIQUE (id);
+
+
+--
+-- Name: directors directors_id_country_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.directors
+    ADD CONSTRAINT directors_id_country_fkey FOREIGN KEY (id_country) REFERENCES public.countries(id);
+
+
+--
+-- Name: films_actors films_actors_id_actors_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.films_actors
+    ADD CONSTRAINT films_actors_id_actors_fkey FOREIGN KEY (id_actor) REFERENCES public.actors(id);
+
+
+--
+-- Name: films_actors films_actors_id_film_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.films_actors
+    ADD CONSTRAINT films_actors_id_film_fkey FOREIGN KEY (id_film) REFERENCES public.films(id);
+
+
+--
+-- Name: films_directors films_directors_id_director_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.films_directors
+    ADD CONSTRAINT films_directors_id_director_fkey FOREIGN KEY (id_director) REFERENCES public.directors(id);
+
+
+--
+-- Name: films_directors films_directors_id_film_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.films_directors
+    ADD CONSTRAINT films_directors_id_film_fkey FOREIGN KEY (id_film) REFERENCES public.films(id);
 
 
 --
